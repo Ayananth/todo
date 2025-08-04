@@ -1,0 +1,28 @@
+{% extends 'CBV/base.html' %}
+{% block title %}To-Do List{% endblock %}
+{% block content %}
+    <h1 class="mb-4">📝 To-Do List: CBV</h1>
+    <a href="{% url 'CBVadd_task' %}" class="btn btn-primary mb-3">+ Add New Task</a>
+
+    <ul class="list-group">
+        {% for task in tasks %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    {% if task.completed %}
+                        <span class="text-success"><s>{{ task.title }}</s></span>
+                    {% else %}
+                        {{ task.title }}
+                    {% endif %}
+                </div>
+                <div>
+                    {% if not task.completed %}
+                        <a href="{% url 'complete_task' task.id %}" class="btn btn-sm btn-success">✓ Complete</a>
+                    {% endif %}
+                    <a href="{% url 'delete_task' task.id %}" class="btn btn-sm btn-danger">🗑 Delete</a>
+                </div>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No tasks yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
